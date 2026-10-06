@@ -1,0 +1,12 @@
+{
+  "name": "decentralized-crowd-funding",
+  "version": "1.0.0",
+  "description": "Decentralized Crowdfunding DApp",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "db": "node scripts/db-cli.js",
+    "test": "npm --prefix blockend test",
+    "compile": "npm --prefix blockend run compile"
+  }
+}

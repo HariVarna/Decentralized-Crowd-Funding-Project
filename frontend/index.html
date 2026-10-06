@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DCF // Decentralized Crowdfunding Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
+</head>
+<body class="theme-bw">
+
+  <!-- =========================================================================
+       VIEW 1: AUTHENTICATION PORTAL (PROFESSIONAL BLACK & WHITE THEME)
+       ========================================================================= -->
+  <div id="authView" class="view-section active">
+    <header class="bw-navbar">
+      <div class="bw-nav-container">
+        <div class="brand">
+          <span class="brand-badge">WEB3</span>
+          <span class="brand-title">DECENTRALIZED CROWDFUNDING</span>
+        </div>
+        <div class="header-status">
+          <span class="status-indicator"></span> Phase 1 Protocol
+        </div>
+      </div>
+    </header>
+
+    <main class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Welcome to DCF</h2>
+          <p class="auth-subtitle">Select an access portal to continue</p>
+        </div>
+
+        <!-- Auth Navigation Tabs -->
+        <div class="auth-tabs">
+          <button class="tab-btn active" data-tab="custLoginTab">Customer Login</button>
+          <button class="tab-btn" data-tab="custRegisterTab">Create Account</button>
+          <button class="tab-btn admin-tab" data-tab="adminLoginTab">Admin Portal</button>
+        </div>
+
+        <!-- Notification Banner -->
+        <div id="authAlert" class="auth-alert hidden"></div>
+
+        <!-- TAB 1: CUSTOMER LOGIN -->
+        <form id="custLoginForm" class="tab-content active">
+          <div class="form-field">
+            <label for="custLoginEmail">Email Address</label>
+            <input type="email" id="custLoginEmail" placeholder="name@example.com" required autocomplete="email">
+          </div>
+          <div class="form-field">
+            <label for="custLoginPassword">Password</label>
+            <input type="password" id="custLoginPassword" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="bw-btn bw-btn-primary">
+            Sign In to Customer Portal
+          </button>
+        </form>
+
+        <!-- TAB 2: CUSTOMER REGISTER -->
+        <form id="custRegisterForm" class="tab-content">
+          <div class="form-field">
+            <label for="regFullName">Full Name</label>
+            <input type="text" id="regFullName" placeholder="e.g. John Doe" required autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" placeholder="name@example.com" required autocomplete="email">
+          </div>
+          <div class="form-field">
+            <label for="regPassword">Create Password</label>
+            <input type="password" id="regPassword" placeholder="Minimum 6 characters" minlength="6" required autocomplete="new-password">
+          </div>
+          <button type="submit" class="bw-btn bw-btn-primary">
+            Register Account
+          </button>
+        </form>
+
+        <!-- TAB 3: ADMIN LOGIN -->
+        <form id="adminLoginForm" class="tab-content">
+          <div class="admin-notice-badge">
+            🔐 RESTRICTED // CONTRACT ADMIN ACCESS ONLY
+          </div>
+          <div class="form-field">
+            <label for="adminWalletInput">Admin Wallet Address</label>
+            <input type="text" id="adminWalletInput" placeholder="0x..." required spellcheck="false">
+          </div>
+          <div class="form-field">
+            <label for="adminPasswordInput">Admin Password</label>
+            <input type="password" id="adminPasswordInput" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="bw-btn bw-btn-admin">
+            Authenticate & Launch Terminal
+          </button>
+          <div class="helper-hint">
+            Authorized admin credentials required to access the smart-contract console.
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="bw-footer">
+      <p>&copy; 2026 Decentralized Crowd Funding Project. All cryptographic rights reserved.</p>
+    </footer>
+  </div>
+
+
+  <!-- =========================================================================
+       VIEW 2: CUSTOMER LANDING PAGE (PROFESSIONAL BLACK & WHITE THEME)
+       ========================================================================= -->
+  <div id="customerView" class="view-section">
+    <header class="bw-navbar">
+      <div class="bw-nav-container">
+        <div class="brand">
+          <span class="brand-badge">CUSTOMER</span>
+          <span class="brand-title">DCF PORTAL</span>
+        </div>
+        <div class="nav-user-actions">
+          <div class="user-chip">
+            <span class="avatar-icon">👤</span>
+            <span id="custDisplayName">User</span>
+          </div>
+          <button id="btnCustomerLogout" class="bw-btn bw-btn-outline bw-btn-sm">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="customer-container">
+      <!-- DEVELOPMENT STAGE BANNER -->
+      <section class="dev-banner">
+        <div class="dev-banner-badge">🚧 DEVELOPMENT NOTICE</div>
+        <h2>Platform is in Active Development Stage</h2>
+        <p>
+          Welcome to the Decentralized Crowdfunding Project. The smart contract foundation is currently in 
+          <strong>Phase 1 (Admin Identity &amp; Contract Ownership)</strong>. Campaign creation, token escrow, 
+          and decentralized public funding modules will be unlocked in upcoming development milestones.
+        </p>
+      </section>
+
+      <!-- Customer Overview Cards -->
+      <div class="dashboard-grid">
+        <!-- Account Card -->
+        <div class="bw-card">
+          <div class="card-header">
+            <h3>Customer Profile</h3>
+            <span class="status-pill active">Verified</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Full Name:</span>
+            <span id="custProfileName" class="detail-val">---</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Email:</span>
+            <span id="custProfileEmail" class="detail-val">---</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Account ID:</span>
+            <span id="custProfileId" class="detail-val monospace">---</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Member Since:</span>
+            <span id="custProfileJoined" class="detail-val">---</span>
+          </div>
+        </div>
+
+        <!-- Web3 Wallet Connection Card -->
+        <div class="bw-card">
+          <div class="card-header">
+            <h3>Web3 Wallet</h3>
+            <span id="custWalletStatusPill" class="status-pill neutral">Not Connected</span>
+          </div>
+          <p class="card-desc">Connect your decentralized wallet to prepare for upcoming campaign backing features.</p>
+          <div class="wallet-connect-area">
+            <button id="btnCustConnectWallet" class="bw-btn bw-btn-primary">
+              ⚡ Connect MetaMask
+            </button>
+            <div id="custConnectedWallet" class="address-chip hidden">
+              0x...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roadmap / Upcoming Features Placeholder -->
+      <section class="roadmap-section">
+        <h3>Crowdfunding Milestone Roadmap</h3>
+        <div class="roadmap-grid">
+          <div class="roadmap-card completed">
+            <div class="phase-num">PHASE 1</div>
+            <h4>Admin Ownership</h4>
+            <p>Deployer authorization &amp; EVM-level access control established.</p>
+            <span class="phase-tag">COMPLETED</span>
+          </div>
+          <div class="roadmap-card in-dev">
+            <div class="phase-num">PHASE 2</div>
+            <h4>Campaign Creation</h4>
+            <p>Smart contract structs, target funding goals, and campaign registry.</p>
+            <span class="phase-tag">IN DEVELOPMENT</span>
+          </div>
+          <div class="roadmap-card future">
+            <div class="phase-num">PHASE 3</div>
+            <h4>Pledge &amp; Backing</h4>
+            <p>Decentralized escrow, ETH deposits, and backer reward tracking.</p>
+            <span class="phase-tag">PLANNED</span>
+          </div>
+          <div class="roadmap-card future">
+            <div class="phase-num">PHASE 4</div>
+            <h4>Fund Claiming &amp; Refunds</h4>
+            <p>Safe withdrawal upon target goal reached or automated refunds.</p>
+            <span class="phase-tag">PLANNED</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bw-footer">
+      <p>&copy; 2026 Decentralized Crowd Funding Project. Phase 1 Release.</p>
+    </footer>
+  </div>
+
+
+  <!-- =========================================================================
+       VIEW 3: ADMIN ACCESS PANEL (RETRO CYBERPUNK / CRT GREEN SCREEN THEME)
+       ========================================================================= -->
+  <div id="adminView" class="view-section">
+    <div class="scanlines"></div>
+    <div class="glow-overlay"></div>
+
+    <div class="retro-body">
+      <div class="terminal-container">
+        <!-- Retro Header -->
+        <header class="terminal-header">
+          <pre class="ascii-logo">
+ _____  _____ ______    ___  ____   ___ ___  ____  ____  
+|     \/     |   ___|  /  _]|    \ |   |   ||    ||    \ 
+|   --|  |--||   ___| /  [_ |  _  || _   _ | |  | |  _  |
+|_____/|_____|___|    \____||____/ |_| |_| |_|____||____/ 
+[ PHASE 1: ROOT ADMIN CONTROL PROTOCOL // HARDENED ]
+          </pre>
+          <div class="status-bar">
+            <span class="status-item"><span class="blink">●</span> SYS_READY</span>
+            <span class="status-item" id="networkStatus">NETWORK: DETECTING...</span>
+            <span class="status-item" id="blockNumber">BLOCK: ---</span>
+            <button id="btnAdminLogout" class="retro-btn btn-sm btn-danger" style="margin-left:auto;">
+              [ EXIT TERMINAL ]
+            </button>
+          </div>
+        </header>
+
+        <!-- RETRO DEVELOPMENT STAGE ADVISORY -->
+        <div class="retro-dev-banner">
+          <div class="retro-dev-title">*** SYSTEM NOTICE: ADMIN CONSOLE IN DEVELOPMENT STAGE ***</div>
+          <p>
+            Welcome, Administrator. The Decentralized Crowdfunding platform is currently in 
+            <strong>Phase 1 (Admin Identity &amp; Access Control Protocol)</strong>. 
+            All administrative governance, campaign approvals, platform fee configuration, and emergency pause controls are currently under active development and will be unlocked in upcoming phases.
+          </p>
+        </div>
+
+        <!-- Admin Overview Grid -->
+        <main class="grid-layout">
+          <!-- Left Column: Authenticated Identity Details -->
+          <section class="card retro-panel">
+            <h2 class="panel-title">[ AUTHENTICATED ADMIN IDENTITY ]</h2>
+            
+            <div class="identity-box">
+              <div class="info-row">
+                <span class="label">ADMIN WALLET:</span>
+                <span class="value highlight monospace">0xa7704bA93fE0A8e04E6E8Bfd760b0892ac71a319</span>
+              </div>
+              <div class="info-row">
+                <span class="label">ACCESS LEVEL:</span>
+                <span class="badge badge-admin">ROOT ADMINISTRATOR (VERIFIED)</span>
+              </div>
+              <div class="info-row">
+                <span class="label">SECURITY PROTOCOL:</span>
+                <span class="value">OPENZEPPELIN OWNABLE (EVM LEVEL)</span>
+              </div>
+              <div class="info-row">
+                <span class="label">SESSION STATUS:</span>
+                <span class="value highlight">ONLINE // AUTHENTICATED</span>
+              </div>
+            </div>
+
+            <div class="security-advisory">
+              <div class="advisory-icon">🛡</div>
+              <div class="advisory-text">
+                <strong>SMART CONTRACT SECURITY:</strong> Admin authorization is strictly cryptographically verified on-chain via smart contract <code>onlyOwner</code> modifiers.
+              </div>
+            </div>
+          </section>
+
+          <!-- Right Column: System Governance Roadmap -->
+          <section class="card retro-panel">
+            <h2 class="panel-title">[ ADMIN PROTOCOL ROADMAP ]</h2>
+            
+            <div class="retro-roadmap-list">
+              <div class="retro-roadmap-item active-phase">
+                <span class="phase-indicator">▶ [PHASE 1]</span>
+                <div>
+                  <strong>ADMIN IDENTITY ESTABLISHED</strong>
+                  <p>Deployer ownership &amp; root authentication established.</p>
+                </div>
+              </div>
+
+              <div class="retro-roadmap-item dev-phase">
+                <span class="phase-indicator">▷ [PHASE 2]</span>
+                <div>
+                  <strong>CAMPAIGN REGISTRY &amp; CREATION</strong>
+                  <p>Smart contract campaign structs and validation engine.</p>
+                </div>
+              </div>
+
+              <div class="retro-roadmap-item future-phase">
+                <span class="phase-indicator">▷ [PHASE 3]</span>
+                <div>
+                  <strong>ADMIN GOVERNANCE &amp; FEES</strong>
+                  <p>Campaign curation, platform fee parameters &amp; emergency controls.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="terminal-footer">
+          <span>DECENTRALIZED CROWDFUNDING DAPP — ADMIN ENGINE</span>
+          <span>SOLIDITY 0.8.34 // OPENZEPPELIN OWNABLE</span>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "CUST-ZAR07K0",
+    "fullName": "Hari Varna",
+    "email": "harivarna4@gmail.com",
+    "passwordHash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "createdAt": "2026-10-06T08:30:00.000Z",
+    "walletAddress": null
+  },
+  {
+    "id": "CUST-T1S1XPF",
+    "fullName": "Deepakkumar A",
+    "email": "deepakkumar.a_25cy@kgkite.ac.in",
+    "passwordHash": "192576e1b08b8a09dbf5bd4af13b3aa1455d937ad2057f9628a1471cfa52d132",
+    "createdAt": "2026-10-06T08:46:21.175Z",
+    "walletAddress": null
+  },
+  {
+    "id": "CUST-D9Y1PRV",
+    "fullName": "Seyakanth K",
+    "email": "seyakanthk@gmail.com",
+    "passwordHash": "fe1690d4949e1490bc90fd392f08b051ac158c9fd517604e7ead70780b897ab0",
+    "createdAt": "2026-10-06T09:17:25.722Z",
+    "walletAddress": null
+  },
+  {
+    "id": "CUST-9RXL0PZ",
+    "fullName": "adc",
+    "email": "adc@gmail.coom",
+    "passwordHash": "bef57ec7f53a6d40beb640a780a639c83bc29ac8a9816f1fc6c5c6dcd93c4721",
+    "createdAt": "2026-10-06T09:25:13.979Z",
+    "walletAddress": null
+  }
+]
