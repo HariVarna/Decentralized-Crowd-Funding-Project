@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "compile": "hardhat compile",
     "test": "hardhat test"
   },
   "keywords": [],
@@ -12,7 +13,6 @@
   "type": "module",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^4.0.0",
-    "@openzeppelin/contracts": "^5.6.1",
     "hardhat": "^3.18.1"
   }
 }
